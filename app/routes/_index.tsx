@@ -41,10 +41,10 @@ export default function Index() {
                 <a href="">物件情報入力</a>
               </li>
               <li>
-                <a href="">
+                <Link to="/result">
                   結果確認
                   <span className="badge badge-primary badge-xs"></span>
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -95,8 +95,10 @@ export default function Index() {
 
 export function Section({ children }: { children: ReactNode }) {
   return (
-    <section className="p-8 odd:bg-base-200">
-      <div className="container flex items-center gap-8">{children}</div>
+    <section className="py-8 odd:bg-base-200">
+      <div className="container flex flex-col sm:flex-row items-center gap-8">
+        {children}
+      </div>
     </section>
   );
 }
