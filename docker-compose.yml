@@ -1,0 +1,10 @@
+version: '2'
+services:
+  server-recommend:
+    build: ./server-recommend
+    ports:
+      - 8000:8000
+  client-web:
+    build: ./client-web
+    ports:
+      - 3000:3000

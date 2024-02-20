@@ -1,38 +1,17 @@
-# Welcome to Remix!
+# Cyclie
 
-- [Remix Docs](https://remix.run/docs)
+賃貸物件交換プラットフォーム
 
-## Development
-
-From your terminal:
-
+## 実行方法
 ```sh
-npm run dev
+docker-compose up
+
+# Then, open http://localhost:3000/ for web UI.
 ```
 
-This starts your app in development mode, rebuilding assets on file changes.
+## コンポーネント一覧
+### /client-web
+RemixベースのWebアプリケーション
 
-## Deployment
-
-First, build your app for production:
-
-```sh
-npm run build
-```
-
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `remix build`
-
-- `build/`
-- `public/build/`
+### /server-recommend
+Pythonを用いたレコメンデーションAPIサーバ
