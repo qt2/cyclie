@@ -7,12 +7,16 @@
 import { RemixBrowser } from "@remix-run/react";
 import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
+import { RecoilRoot } from "recoil";
 
 startTransition(() => {
   hydrateRoot(
     document,
     <StrictMode>
-      <RemixBrowser />
+      <RecoilRoot>
+        <RemixBrowser />
+      </RecoilRoot>
+
     </StrictMode>
   );
 });
