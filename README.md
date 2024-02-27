@@ -9,7 +9,7 @@ Docker がインストールされている必要があります。
 1. 以下のコマンドを実行して、アプリケーションを起動してください。
 
 ```sh
-docker-compose up
+docker-compose up --build
 ```
 
 2. その後、http://localhost:3000/ をブラウザで開いてください。
