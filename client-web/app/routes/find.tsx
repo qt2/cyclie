@@ -92,23 +92,13 @@ export default function Find() {
             }
             slug="atmos"
           >
-            <AtmosItem title="モダンなインテリア" slug="modern" />
+            <AtmosItem
+              title="ほかの建物から部屋の中が見えそう"
+              slug="peekable"
+            />
+            <AtmosItem title="窓から緑がみえる" slug="green_visible" />
+            <AtmosItem title="壁に模様がある" slug="wall_patterned" />
           </QueryItem>
-
-          {/* <h2 className="mt-4 text-2xl font-semibold">
-            希望のイメージ
-            <span className="ml-2 badge badge-sm badge-accent badge-outline">
-              <BsMagic />
-              AI
-            </span>
-          </h2>
-          <div className="py-4">
-            <textarea
-              name="misc"
-              className="textarea w-full"
-              placeholder="例: モダンな内装"
-            ></textarea>
-          </div> */}
 
           <p className="mt-2">
             指定した条件にマッチする割合が高いものから順に結果が表示されます。（一部の条件に合わないものでも、他の条件が強くマッチしていれば、上位に表示されます。）

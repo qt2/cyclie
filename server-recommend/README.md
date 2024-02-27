@@ -2,11 +2,13 @@
 
 Cyclie のレコメンデーション API の実装です。
 
-## 実行方法
+Python のサーバーフレームワークである FastAPI を用いています。
 
-```sh
-pip install -r requirements.txt
-uvicorn main:app
+`database`コンポーネントで生成されたデータセットをもとに、検索・レコメンド機能を提供します。
 
-# Open http://localhost:8000/docs for API docs
-```
+## 実装機能
+
+- ユーザーの希望に応じた検索機能
+  - 連続的な検索条件
+  - 画像解析 AI の結果を用いた雰囲気検索
+- ユーザーの希望リストの管理

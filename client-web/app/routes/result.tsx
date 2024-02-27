@@ -11,7 +11,7 @@ import {
 import { PropertyData } from "./search";
 
 export async function loader() {
-  const res = await fetch("http://localhost:8000/result");
+  const res = await fetch("http://server-recommend:8000/result");
   const data = await res.json();
   const result: PropertyData | null = data.result;
   return json({

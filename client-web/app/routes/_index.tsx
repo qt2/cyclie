@@ -11,7 +11,7 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader() {
-  const res = await fetch("http://localhost:8000/result");
+  const res = await fetch("http://server-recommend:8000/result");
   const data = await res.json();
   const result: string | null = data.result;
   return json({
@@ -38,7 +38,10 @@ export default function Index() {
               className="btn btn-ghost btn-circle text-3xl"
             >
               {data.has_result ? (
-                <div className="indicator">
+                <div
+                  className="indicator tooltip tooltip-open tooltip-bottom tooltip-secondary"
+                  data-tip="結果が更新されました！"
+                >
                   <span className="indicator-item badge badge-primary badge-xs">
                     <span className="absolute badge badge-primary badge-xs animate-ping"></span>
                   </span>

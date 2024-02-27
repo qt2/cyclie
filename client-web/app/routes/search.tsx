@@ -34,7 +34,7 @@ export type PropertyData = {
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const url = new URL("http://localhost:8000/search");
+  const url = new URL("http://server-recommend:8000/search");
   url.search = new URL(request.url).search;
 
   const res = await fetch(url);
@@ -104,7 +104,7 @@ export function PropertyCard({ data }: { data: PropertyData }) {
       </div>
       <p>
         {data.rent}万円 | {data.area} m<sup>2</sup> | 築{data.age}年 |{" "}
-        {data.access} {data.atmos_peekable && "| peekable"}
+        {data.access}
       </p>
       <div className="mt-4 flex flex-nowrap overflow-x-auto gap-3">
         {data.image_urls.map((url, i) => (

@@ -32,12 +32,12 @@ type PropertyData = {
 };
 
 export async function loader() {
-  const res = await fetch("http://localhost:8000/wish_list");
+  const res = await fetch("http://server-recommend:8000/wish_list");
   return (await res.json()) as PropertyData[];
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-  const res = await fetch("http://localhost:8000/wish_list", {
+  const res = await fetch("http://server-recommend:8000/wish_list", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

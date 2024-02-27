@@ -1,7 +1,7 @@
 import { ActionFunctionArgs, json } from "@remix-run/node";
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  const url = `http://localhost:8000/wish_list/${params.id}`;
+  const url = `http://server-recommend:8000/wish_list/${params.id}`;
   let res;
 
   switch (request.method) {
