@@ -242,11 +242,11 @@ export function AtmosItem({
 
         <span className="pl-4 text-xs text-orange-800">嫌い</span>
         <div className="rating rating-sm gap-1">
-          <Rating v={1} className="bg-indigo-500 mask-diamond scale-125" />
-          <Rating v={2} className="bg-indigo-500 mask-diamond" />
-          <Rating v={3} className="bg-gray-500 rounded-full" checked />
-          <Rating v={4} className="bg-pink-500 mask-heart" />
-          <Rating v={5} className="bg-pink-500 mask-heart scale-125" />
+          <Rating v={-2} className="bg-indigo-500 mask-diamond scale-125" />
+          <Rating v={-1} className="bg-indigo-500 mask-diamond" />
+          <Rating v={0} className="bg-gray-500 rounded-full" checked />
+          <Rating v={1} className="bg-pink-500 mask-heart" />
+          <Rating v={2} className="bg-pink-500 mask-heart scale-125" />
         </div>
         <span className="pl-4 text-xs text-orange-800">好き</span>
       </div>

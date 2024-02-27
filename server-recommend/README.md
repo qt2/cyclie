@@ -1,8 +1,9 @@
 # server-recommend
 
-CyclieのレコメンデーションAPIの実装
+Cyclie のレコメンデーション API の実装です。
 
 ## 実行方法
+
 ```sh
 pip install -r requirements.txt
 uvicorn main:app
