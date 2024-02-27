@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import { Link, json, useLoaderData } from "@remix-run/react";
 import { ReactNode } from "react";
 import { IoPersonCircleOutline } from "react-icons/io5";
 
@@ -10,7 +10,18 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export async function loader() {
+  const res = await fetch("http://server-recommend:8000/result");
+  const data = await res.json();
+  const result: string | null = data.result;
+  return json({
+    has_result: result !== null,
+  });
+}
+
 export default function Index() {
+  const data = useLoaderData<typeof loader>();
+
   return (
     <div>
       <header className="py-8">
@@ -26,26 +37,37 @@ export default function Index() {
               role="button"
               className="btn btn-ghost btn-circle text-3xl"
             >
-              <div className="indicator">
-                <span className="indicator-item badge badge-primary badge-xs">
-                  <span className="absolute badge badge-primary badge-xs animate-ping"></span>
-                </span>
+              {data.has_result ? (
+                <div
+                  className="indicator tooltip tooltip-open tooltip-bottom tooltip-secondary"
+                  data-tip="結果が更新されました！"
+                >
+                  <span className="indicator-item badge badge-primary badge-xs">
+                    <span className="absolute badge badge-primary badge-xs animate-ping"></span>
+                  </span>
+                  <IoPersonCircleOutline />
+                </div>
+              ) : (
                 <IoPersonCircleOutline />
-              </div>
+              )}
             </div>
             <ul
               tabIndex={0}
               className="dropdown-content w-48 z-10 menu p-2 shadow bg-base-100 rounded"
             >
-              <li>
-                <a href="">物件情報入力</a>
-              </li>
-              <li>
-                <Link to="/result">
-                  結果確認
-                  <span className="badge badge-primary badge-xs"></span>
-                </Link>
-              </li>
+              {data.has_result && (
+                <li>
+                  <Link to="/result">
+                    結果確認
+                    <span className="badge badge-primary badge-xs"></span>
+                  </Link>
+                </li>
+              )}
+              {!data.has_result && (
+                <li>
+                  <Link to="/wish_list">希望リスト</Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>
@@ -72,7 +94,9 @@ export default function Index() {
           <div>
             <h3 className="text-2xl font-semibold">引越し先を探そう！</h3>
             <p className="mt-4">
-              Cyclie なら空室物件だけでなく、<strong>引越しを検討してる人の部屋を含めて</strong>探すことができます！
+              Cyclie なら空室物件だけでなく、
+              <strong>引越しを検討してる人の部屋を含めて</strong>
+              探すことができます！
               希望の物件が見つからなかった場合には、今の物件を手放す必要はありません。
             </p>
           </div>
@@ -84,9 +108,12 @@ export default function Index() {
             className="aspect-square"
           />
           <div>
-            <h3 className="text-2xl font-semibold">AIが好みにあった物件を提案！</h3>
+            <h3 className="text-2xl font-semibold">
+              AIが好みにあった物件を提案！
+            </h3>
             <p className="mt-4">
-              簡単なアンケートに答えるだけで、あなたの好みを学習し、<strong>希望の雰囲気に近い物件をAIが提案します！</strong>
+              簡単なアンケートに答えるだけで、あなたの好みを学習し、
+              <strong>希望の雰囲気に近い物件をAIが提案します！</strong>
               もちろん、地域や予算、広さといった条件も組み合わせることができます。
             </p>
           </div>
@@ -101,7 +128,11 @@ export default function Index() {
             <h3 className="text-2xl font-semibold">面倒な手続きもおまかせ！</h3>
             <p className="mt-4">
               引っ越しには、引っ越し業者の手配や、水道やガス、電気などの契約変更などの面倒な手続きがつきもの。
-              Cyclieなら、<strong>引っ越し先が決定した後の手続きをワンストップでお任せ</strong>することができます！
+              Cyclieなら、
+              <strong>
+                引っ越し先が決定した後の手続きをワンストップでお任せ
+              </strong>
+              することができます！
             </p>
           </div>
         </Section>
