@@ -1,11 +1,23 @@
 from fastapi import FastAPI
 import json
+from pydantic import BaseModel
+import random
+
 
 # 物件データの読み込み
 with open("samples_with_atmosphere.json", encoding="utf-8") as f:
     dataset = json.load(f)
 
+for i, d in enumerate(dataset):
+    d["id"] = i
+
 app = FastAPI()
+
+# ユーザーの希望リスト（プロトタイプではユーザーは1人しかいないので、グローバル変数を使用します）
+wish_list = []
+
+# マッチング先の物件ID（実際には一定期間ごとにマッチングを行います。モックアップでは希望リストからランダムに選択します）
+target = None
 
 
 @app.get("/")
@@ -78,4 +90,53 @@ async def search(
     # スコア関数の順に検索結果を返す
     results = sorted(dataset, key=score_fn)
 
+    for r in results:
+        r["is_wished"] = r["id"] in wish_list
+
     return results
+
+
+@app.get("/wish_list")
+async def get_wish_list():
+    # 現在の希望リストに含まれる物件データを取得
+    return [dataset[id] for id in wish_list]
+
+
+class UpdateWishListRequest(BaseModel):
+    ids: list[int]
+
+
+@app.post("/wish_list")
+async def update_wish_list(item: UpdateWishListRequest):
+    # 希望リストを更新
+    global wish_list
+    wish_list = item.ids
+
+
+@app.post("/wish_list/{id}")
+async def add_wish_list(id: int):
+    # 希望リストに物件を追加
+    if id not in wish_list:
+        wish_list.append(id)
+
+
+@app.delete("/wish_list/{id}")
+async def remove_wish_list(id: int):
+    # 希望リストから物件を削除
+    wish_list.remove(id)
+
+
+@app.post("/submit")
+async def submit_wish_list():
+    # 希望リストを確定する
+    global target
+    target = random.choice(wish_list)
+
+
+@app.get("/result")
+async def get_result():
+    # マッチング結果を返す（モックアップ用）
+    if target is None:
+        return {"result": None}
+
+    return {"result": dataset[target]}

@@ -1,16 +1,23 @@
-import { LoaderFunctionArgs, json } from "@remix-run/node";
-import { Link, useFetcher, useLoaderData } from "@remix-run/react";
-import { ReactNode } from "react";
+import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
+import {
+  Link,
+  useActionData,
+  useFetcher,
+  useLoaderData,
+} from "@remix-run/react";
+import { ReactNode, useState } from "react";
 import {
   IoAdd,
   IoAddCircleOutline,
   IoArrowBack,
   IoBusiness,
+  IoCheckmark,
   IoFolderOpen,
   IoSearch,
 } from "react-icons/io5";
 
-type PropertyData = {
+export type PropertyData = {
+  id: number;
   title: string;
   address: string;
   rent: number;
@@ -20,7 +27,10 @@ type PropertyData = {
   access: string;
   distance: number;
   image_urls: string[];
+  atmos_peekable: boolean;
   atmos_green_visible: boolean;
+  atmos_wall_patterned: boolean;
+  is_wished: boolean;
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -42,9 +52,9 @@ export default function Find() {
             <IoArrowBack className="text-xl" /> 条件を変更
           </Link>
           <div className="grow"></div>
-          <a className="btn rounded-full bg-base-100">
+          <Link to="/wish_list" className="btn rounded-full bg-base-100">
             <IoFolderOpen className="text-xl" /> 希望リスト
-          </a>
+          </Link>
         </div>
       </header>
       <main className="py-8">
@@ -60,21 +70,45 @@ export default function Find() {
 }
 
 export function PropertyCard({ data }: { data: PropertyData }) {
+  const fetcher = useFetcher();
+  const [isWished, setIsWished] = useState(data.is_wished);
+
   return (
     <div className="mt-8 px-6 py-4 rounded bg-base-100">
       <div className="flex">
         <h2 className="grow text-xl font-bold">{data.title}</h2>
-        <div className="btn btn-sm btn-outline btn-primary">
-          <IoAddCircleOutline className="text-xl" /> 希望リストに追加
-        </div>
+        {isWished ? (
+          <fetcher.Form
+            method="delete"
+            action={`/wish_list/${data.id}`}
+            onSubmit={() => setIsWished(false)}
+          >
+            <button className="btn btn-sm btn-primary">
+              <IoCheckmark className="text-xl" /> 追加済み
+            </button>
+          </fetcher.Form>
+        ) : (
+          <fetcher.Form
+            method="post"
+            action={`/wish_list/${data.id}`}
+            onSubmit={() => setIsWished(true)}
+          >
+            <button
+              type="submit"
+              className="btn btn-sm btn-outline btn-primary"
+            >
+              <IoAddCircleOutline className="text-xl" /> 希望リストに追加
+            </button>
+          </fetcher.Form>
+        )}
       </div>
       <p>
         {data.rent}万円 | {data.area} m<sup>2</sup> | 築{data.age}年 |{" "}
-        {data.access} | {data.atmos_green_visible && "緑あり "}
+        {data.access} {data.atmos_peekable && "| peekable"}
       </p>
       <div className="mt-4 flex flex-nowrap overflow-x-auto gap-3">
-        {data.image_urls.map((url) => (
-          <div>
+        {data.image_urls.map((url, i) => (
+          <div key={i}>
             <div className="w-36 h-36 flex justify-center items-center rounded bg-base-200">
               {/* <IoBusiness className="text-xl text-primary-content" /> */}
               <img src={url} loading="lazy" />
