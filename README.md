@@ -33,3 +33,7 @@ Python を用いたレコメンデーション API サーバ
 ### /dataset
 
 プロトタイプで用いる物件データセット、および画像解析 AI による内装の雰囲気推定
+
+## コンポーネント関係図
+
+![relationship of components](docs/relationship.png)
